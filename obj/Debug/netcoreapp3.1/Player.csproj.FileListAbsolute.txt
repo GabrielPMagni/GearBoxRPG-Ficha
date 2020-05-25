@@ -1,0 +1,13 @@
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.exe
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.deps.json
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.runtimeconfig.json
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.runtimeconfig.dev.json
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.dll
+E:\Repos\Player\bin\Debug\netcoreapp3.1\Player.pdb
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.csprojAssemblyReference.cache
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.AssemblyInfoInputs.cache
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.AssemblyInfo.cs
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.csproj.CoreCompileInputs.cache
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.dll
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.pdb
+E:\Repos\Player\obj\Debug\netcoreapp3.1\Player.genruntimeconfig.cache
