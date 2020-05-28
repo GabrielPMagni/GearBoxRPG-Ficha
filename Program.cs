@@ -119,8 +119,8 @@ namespace Player
 
             }
 
-            var x = mDBConnection.openConection();
-            Console.WriteLine(x);
+            //var x = mDBConnection.openConection();
+            //Console.WriteLine(x);
             readPlayerName();
             readCharName();
             readRace();
