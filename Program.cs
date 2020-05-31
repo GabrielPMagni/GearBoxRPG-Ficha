@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Globalization;
 using System.Net.Http;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace Player
 {
 
     class Program
     {
-        private static readonly HttpClient client = new HttpClient();
-        static void Main(string[] args)
+        static async Task<int> Main(string[] args)
         {
             TextInfo mTextInfo = CultureInfo.CurrentCulture.TextInfo;
             Validate mValidate = new Validate();
             Player mPlayer = new Player();
-
             void readPlayerName()
             {
                 //Console.Clear();
@@ -119,24 +122,70 @@ namespace Player
 
             }
 
-            //var x = mDBConnection.openConection();
-            //Console.WriteLine(x);
+            
+
+
+
+
             readPlayerName();
             readCharName();
             readRace();
             readClassId();
 
 
-
             Console.Clear();
+
+            Connect mConnect = new Connect();
+
+            var values = new Dictionary<string, object>
+            {
+                { "playerName", mPlayer.getPlayerName()},
+                { "charName", mPlayer.getCharName()},
+                { "charLife", mPlayer.getLife()},
+                { "charRace", mPlayer.getRace()},
+                { "charClass", mPlayer.getClassId()}
+            };
+
+            string content = JsonSerializer.Serialize(values);
+            
+            await mConnect.DoPost(content);
+
             Console.WriteLine("Nome do Jogador: " + mPlayer.getPlayerName());
             Console.WriteLine("Nome do Personagem: " + mPlayer.getCharName());
             Console.WriteLine("Vida do Personagem: " + mPlayer.getLife());
             Console.WriteLine("Nome da Raça: " + mPlayer.getRace());
             Console.WriteLine("Nome da Classe: " + mPlayer.getClassId());
-
+            return 0;
         }
+
+        
+
     }
+
+    public class Connect {
+        public async Task DoPost(string data)
+                {
+
+                    var httpClient = new HttpClient();
+                    var response = await httpClient.PostAsync("http://127.0.0.1:80/index.php", new StringContent(data));
+
+                    //response.EnsureSuccessStatusCode();
+
+                    // StringContent content = new StringContent(mPlayer.getPlayerName());
+                    // var response = cliente.PostAsync(cliente.BaseAddress, content);
+
+                    string content = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine(response.Headers);
+                    Console.WriteLine(content);
+                    Console.WriteLine(response.StatusCode);
+
+                    //return await Task.Run(() => JsonObject.Parse(content));
+                }
+
+
+
+    }
+
 
     // VALIDAÇÕES DE INPUTS DE USUÁRIO
     public class Validate
@@ -146,6 +195,9 @@ namespace Player
         {
             int num;
             name = name.Trim();
+            if(name.Length > 50){
+                return(false);
+            }
             for (int i = 0; i < name.Length; i++)
             {
                 if (i == 0 && name.Contains(",") || i == 0 && name.Contains("."))
@@ -213,6 +265,8 @@ namespace Player
 
 
     }
+
+    
 
     // ATRIBUTOS JOGADOR/PERSONGEM
     public class Player

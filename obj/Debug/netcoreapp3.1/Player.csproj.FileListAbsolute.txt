@@ -70,3 +70,4 @@ E:/Repos/Player/obj/Debug/netcoreapp3.1/Player.csproj.CopyComplete
 /media/gpmag/Depósito/Repos/Player/obj/Debug/netcoreapp3.1/Player.dll
 /media/gpmag/Depósito/Repos/Player/obj/Debug/netcoreapp3.1/Player.pdb
 /media/gpmag/Depósito/Repos/Player/obj/Debug/netcoreapp3.1/Player.genruntimeconfig.cache
+/media/gpmag/Depósito/Repos/Player/bin/Debug/netcoreapp3.1/System.Json.dll
