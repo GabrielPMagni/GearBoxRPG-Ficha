@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Globalization;
-using MySql.Data.MySqlClient;
+using System.Net.Http;
 namespace Player
 {
 
     class Program
     {
+        private static readonly HttpClient client = new HttpClient();
         static void Main(string[] args)
         {
             TextInfo mTextInfo = CultureInfo.CurrentCulture.TextInfo;
             Validate mValidate = new Validate();
             Player mPlayer = new Player();
-            DBConnection mDBConnection = new DBConnection();
 
             void readPlayerName()
             {
@@ -126,7 +126,6 @@ namespace Player
             readRace();
             readClassId();
 
-            mDBConnection.insertData(mPlayer.getPlayerName(), mPlayer.getCharName(), mPlayer.getRace(), mPlayer.getClassId(), mPlayer.getLife());
 
 
             Console.Clear();
@@ -282,140 +281,6 @@ namespace Player
     }
 
     // Conexão com Banco de Dados
-    class DBConnection
-    {
-
-        private MySqlConnection connection;
-        private string server, dbName, userId, passwd, connString;
-
-        public DBConnection()
-        {
-            this.server = "172.16.50.248";
-            this.dbName = "GearBoxRPG";
-            this.userId = "client"; // client
-            this.passwd = "xUXczthO6LMB795d"; // xUXczthO6LMB795d
-            this.connString = "SERVER=" + this.server + "; PORT=3306; DATABASE=" + this.dbName + ";UID=" + this.userId + "; PASSWORD=" + this.passwd + ";";
-            this.connection = new MySqlConnection(this.connString);
-
-        }
-
-        public bool openConection()
-        {
-            this.connection.Open();
-
-            try
-            {
-
-                if (this.connection.State != System.Data.ConnectionState.Open)
-                {
-                    this.connection.Open();
-                    Console.WriteLine("Aberta conexão.");
-                }
-                else
-                {
-                    Console.WriteLine("Conexão já ativa.");
-                }
-                return (true);
-
-            }
-            catch (MySqlException erro)
-            {
-                switch (erro.Number)
-                {
-                    case 0:
-                        Console.WriteLine("Não foi possível conectar ao banco.");
-                        Console.WriteLine(erro.Message);
-                        break;
-                    case 1045:
-                        Console.WriteLine("Usuário ou senha inválidos.");
-                        Console.WriteLine(erro.Message);
-                        break;
-                    default:
-                        Console.WriteLine("Exessão não tratada: " + erro.ToString());
-                        Console.WriteLine(erro.Message);
-                        break;
-                }
-                return (false);
-            }
-        }
-
-        private bool closeConection()
-        {
-            try
-            {
-                this.connection.Close();
-                return (true);
-            }
-            catch (MySqlException erro)
-            {
-                Console.WriteLine("Encontrado erro ao tentar fechar conexão: " + erro.ToString());
-                return (false);
-            }
-        }
-
-        public void insertData(string playerName, string charName, int raceId, int classId, int life)
-        {
-
-            this.openConection();
-
-
-
-            void insertPlayerName(string name)
-            {
-                MySqlCommand cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO NomeJogador (nome_jogador) VALUES (?name);";
-                cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = name;
-                cmd.ExecuteNonQuery();
-
-            }
-
-            void insertCharName(string name)
-            {
-                this.openConection();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = "INSERT INTO NomePersonagem (nome_personagem) VALUES (?name);";
-                cmd.Parameters.Add("?name", MySqlDbType.VarChar).Value = name;
-                cmd.ExecuteNonQuery();
-            }
-
-            void insertRace(int raceId)
-            {
-                this.openConection();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = "INSERT INTO Raca (raca) VALUES (?raceId);";
-                cmd.Parameters.Add("?raceId", MySqlDbType.Int64).Value = raceId;
-                cmd.ExecuteNonQuery();
-            }
-
-            void insertClass(int classId)
-            {
-                this.openConection();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = "INSERT INTO Classe (classe) VALUES (?classId);";
-                cmd.Parameters.Add("?classId", MySqlDbType.Int64).Value = classId;
-                cmd.ExecuteNonQuery();
-            }
-
-            void insertLife(int life)
-            {
-                this.openConection();
-                MySqlCommand cmd = new MySqlCommand();
-                cmd.CommandText = "INSERT INTO Life (life) VALUES (?life);";
-                cmd.Parameters.Add("?life", MySqlDbType.Int64).Value = life;
-                cmd.ExecuteNonQuery();
-            }
-
-            insertPlayerName(playerName);
-            insertCharName(charName);
-            insertRace(raceId);
-            insertClass(classId);
-            insertLife(life);
-
-            this.closeConection();
-
-
-        }
-
-    }
+  
 
 }
